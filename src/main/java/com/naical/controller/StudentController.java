@@ -1,0 +1,51 @@
+package com.naical.controller;
+
+import com.naical.student.Student;
+import com.naical.student.StudentServiceImp;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Slf4j
+@RestController
+@RequestMapping("/student")
+@RequiredArgsConstructor
+@Component
+public class StudentController {
+
+    private final StudentServiceImp studentServiceImp;
+
+    @PostMapping(value = "/add")
+    @ResponseBody
+    public Student add(@RequestParam String name) {
+        Student student = Student.builder().name(name).build();
+        log.info("..in add...");
+        return studentServiceImp.save(student);
+    }
+
+    @DeleteMapping(value = "/delete")
+    public void delete(@RequestParam int id) {
+        studentServiceImp.delete(id);
+        log.info("...in delete...");
+    }
+
+    @PostMapping(value = "/update")
+    @ResponseBody
+    public Student update(@RequestParam String name, @RequestParam String newName){
+        Student student = studentServiceImp.getByName(name);
+        student.setName(newName);
+        return studentServiceImp.save(student);
+    }
+
+    @GetMapping(value = "/students")
+    @ResponseBody
+    public List<Student> students(){
+        return studentServiceImp.findAll();
+    }
+
+
+}
