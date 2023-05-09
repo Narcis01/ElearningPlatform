@@ -5,6 +5,7 @@ import com.naical.course.Course;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,8 +21,15 @@ public class Student {
 
     private String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "student")
-    private Set<Course> course;
+    private Set<Course> course = new HashSet<>();
+
+    public void addCourse(Course course){
+        if(this.course == null){
+            this.course = new HashSet<>();
+        }
+        this.course.add(course);
+    }
 
 }

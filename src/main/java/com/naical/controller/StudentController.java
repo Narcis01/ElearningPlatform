@@ -1,5 +1,7 @@
 package com.naical.controller;
 
+import com.naical.course.Course;
+import com.naical.course.CourseServiceImp;
 import com.naical.student.Student;
 import com.naical.student.StudentServiceImp;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +20,17 @@ import java.util.List;
 public class StudentController {
 
     private final StudentServiceImp studentServiceImp;
-
+    private final CourseServiceImp courseServiceImp;
     @PostMapping(value = "/add")
     @ResponseBody
     public Student add(@RequestParam String name) {
         Student student = Student.builder().name(name).build();
+        /*
+        Course course = courseServiceImp.findById(courseId);
+        student.addCourse(course);
+
+
+         */
         log.info("..in add...");
         return studentServiceImp.save(student);
     }
