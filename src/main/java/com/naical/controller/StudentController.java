@@ -21,20 +21,23 @@ public class StudentController {
 
     private final StudentServiceImp studentServiceImp;
     private final CourseServiceImp courseServiceImp;
-    @PostMapping(value = "/add")
+    @PostMapping(value = "/add/{name}&{courseId}")
     @ResponseBody
-    public Student add(@RequestParam String name) {
+    public Student add(@PathVariable String name, @PathVariable int courseId) {
         Student student = Student.builder().name(name).build();
-        /*
         Course course = courseServiceImp.findById(courseId);
         student.addCourse(course);
-
-
-         */
         log.info("..in add...");
         return studentServiceImp.save(student);
     }
 
+    @PostMapping(value = "/add/{name}")
+    @ResponseBody
+    public Student add(@PathVariable String name) {
+        Student student = Student.builder().name(name).build();
+        log.info("..in add...");
+        return studentServiceImp.save(student);
+    }
     @DeleteMapping(value = "/delete")
     public void delete(@RequestParam int id) {
         studentServiceImp.delete(id);

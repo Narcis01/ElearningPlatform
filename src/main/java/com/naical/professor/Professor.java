@@ -1,10 +1,7 @@
 package com.naical.professor;
 
 import com.naical.course.Course;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +17,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Table(name = "Professor")
 public class Professor {
     @Id
     @GeneratedValue
@@ -27,6 +25,11 @@ public class Professor {
 
     private String name;
 
-    @ManyToMany(mappedBy = "professor")
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "Professor_Course",
+            joinColumns = { @JoinColumn(name = "professor_id") },
+            inverseJoinColumns = { @JoinColumn(name = "course_id") }
+    )
     private Set<Course> course;
 }

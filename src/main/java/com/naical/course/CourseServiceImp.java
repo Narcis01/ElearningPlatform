@@ -19,4 +19,9 @@ public class CourseServiceImp implements CourseService {
     public Course findById(int id) {
         return courseRepository.findById(id).orElseThrow();
     }
+
+    @Override
+    public Course findByName(String name) {
+        return courseRepository.findByName(name);
+    }
 }

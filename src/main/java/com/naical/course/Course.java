@@ -1,5 +1,6 @@
 package com.naical.course;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.naical.professor.Professor;
 import com.naical.student.Student;
 import jakarta.persistence.*;
@@ -19,6 +20,7 @@ import java.util.Set;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Table(name = "Course")
 public class Course {
     @Id
     @GeneratedValue
@@ -26,19 +28,19 @@ public class Course {
 
     private String name;
 
-    @ManyToMany
-    @JoinColumns(@JoinColumn(name = "course"))
+    @JsonIgnore
+    @ManyToMany(mappedBy = "course")
     private Set<Professor> professor;
 
-    @ManyToMany
-    @JoinColumn(name = "course")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "course", cascade = CascadeType.PERSIST)
     private Set<Student> student = new HashSet<>();
 
     public void addStudent(Student student) {
         if(this.student == null){
             this.student = new HashSet<>();
         }
-        this.student.add(student);
+        this.getStudent().add(student);
     }
 
 }

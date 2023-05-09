@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Component
 @Repository
 public interface CourseRepository extends JpaRepositoryImplementation<Course, Integer> {
+    Course findByName(String name);
 }
