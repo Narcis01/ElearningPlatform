@@ -29,4 +29,9 @@ public class StudentServiceImp implements StudentService{
     public Student getByName(String name) {
         return studentRepository.findByName(name);
     }
+
+    @Override
+    public Student findById(int id) {
+        return studentRepository.findById(id).orElseThrow();
+    }
 }
